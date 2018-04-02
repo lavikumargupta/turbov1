@@ -1,0 +1,44 @@
+login
+getuserdata
+logout
+_______________
+
+create behical category
+edit vehical category
+delete vehical category
+
+_________
+
+create shift amount
+updaet shift amount
+delete shift amoutn
+
+__________
+
+create owner
+edit owner
+activate owner
+deactivate 
+
+
+____________
+
+change pasword
+get profile data
+update profile data 
+add vehical
+delete vehical
+update vehical
+add shift
+update shift
+delete shift
+___________
+
+change pasword
+get profile data
+update profile data 
+search availability
+book ride
+end ride
+
+
