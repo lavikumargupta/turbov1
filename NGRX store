@@ -1,0 +1,76 @@
+there are multiple views
+each have its own view model which are driven by same domain model
+and that domain movel is keep updateing by severl components or external objects
+so problem is how to keep multiple viewmodel in sync with this domain model\
+
+Every View Model needed to be kept in sync and consistent without refreshing everything all the time
+
+_________
+
+Store application architecture pattern - to solve above problem
+
+instead of transforming the Model into the View Model on the server as its usually done, let's instead copy the Model to the 
+
+client-side, keep it an in-memory client database and derive View Models last second on the client side instead of doing so 
+
+upfront on the server
+
+
+
+How is the data handled?
+we are going to create a client side in-memory database for the application data
+we are going to bring the real domain data, the Model to the frontend and not the multiple View Models that the UI needs
+we are going to keep that Model data which is really a user-specific slice of the database (usually paginated) in that in-memory 
+
+database
+we are going to put that client-side in-memory database inside a centralized service that we will call a Store
+we are going to ensure that the centralized service owns the data, by either ensuring its encapsulation or exposing it as 
+
+immutable
+this centralized service will have reactive properties, we can subscribe to it to get notified when the Model data changes
+
+
+
+How are View Models produced?
+This is how the view layer will be structured in this store design:
+
+each component that needs to produce a View Model of the data will subscribe to get new versions of the in-memory database data
+each component, will upon reception of the Model data produce its own View Model, last second at the level of the component itself
+this will ensure that all View Models are always in sync with the centralized data Model
+The transformation from Model to View Model is done last second on the View Root itself, and not on the server
+The transformation from view to view Model is done via a function called a Selector - the input of a Selector is the Model, and 
+
+the output is the View Model
+
+
+How is the data modified?
+This is how we can modify the data in this store design while keeping all views in sync:
+
+the data can only be modified inside the centralized service by the Store itself
+if a component wants to trigger modifications of the data, it sends a message to the centralized service, under the form of a 
+
+command payload which is known as an Action object
+The emitter of the action does not know which parts of the application will be affected by the action, there is no tight coupling 
+
+between the multiple View components involved
+The Action contains all the information necessary to trigger a sequence of operations that will result in modification of the 
+
+Model data
+A new version of the application Model state is produced by taking the previous state and the action and applying it a pure 
+
+function called a Reducer
+The Reducer function can be split into multiple smaller functions, each one modifying a part of the state
+When the new state Model is available, it gets broadcasted to all interested components, which will then transform it into their 
+
+View model
+the new state model is frozen before getting broadcasted so that the subscribers cannot modify it
+
+
+What data is kept inside the Store?
+The store contains not only the Model data, it also contains any UI specific global state that only exists on the client-side, 
+
+such as:
+
+the currently selected thread ID
+the data of the current user
+
