@@ -1,0 +1,72 @@
+//our root app component
+import {Component, NgModule, VERSION} from '@angular/core'
+import {BrowserModule} from '@angular/platform-browser'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent
+} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'my-app',
+  template: `
+    <div>
+      <h2>Hello {{name}}</h2>
+      <button (click)="makerequest()">assdasd</button>
+    </div>
+  `,
+})
+export class App {
+  name:string;
+  constructor(private http: HttpClient) {
+    this.name = `Angular! v${VERSION.full}`
+  }
+  
+  makerequest()
+  {
+    console.log('asd');
+     const url = 'https://jsonplaceholder.typicode.com/posts/1';
+        this.http.get(url) .subscribe(
+        data => console.log(data)
+      );;
+  }
+
+}
+
+
+@Injectable()
+export class MyHttpLogInterceptor implements HttpInterceptor {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    
+    request = request.clone({
+      setHeaders: {
+        SessionToken: `12365-44584-699425`
+      }
+    });
+
+    console.log(request.headers);
+    return next.handle(request);
+  }
+}
+
+@NgModule({
+  imports: [ BrowserModule,HttpClientModule ],
+  declarations: [ App ],
+  bootstrap: [ App ],
+  providers: [ 
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpLogInterceptor, multi: true }  
+  ] 
+  
+})
+export class AppModule {}
+
+
+
