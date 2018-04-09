@@ -6,12 +6,12 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
-  HttpRequest,
+  HttpRequest,HttpResponse,
   HttpHandler,
   HttpEvent
 } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
-
+import 'rxjs/add/operator/do';
 @Component({
   selector: 'my-app',
   template: `
@@ -29,10 +29,10 @@ export class App {
   
   makerequest()
   {
-    console.log('asd');
+    console.log('1');
      const url = 'https://jsonplaceholder.typicode.com/posts/1';
         this.http.get(url) .subscribe(
-        data => console.log(data)
+        data => {console.log('4');console.log(data);}
       );;
   }
 
@@ -46,14 +46,18 @@ export class MyHttpLogInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     
-    request = request.clone({
+   request = request.clone({
       setHeaders: {
-        SessionToken: `12365-44584-699425`
+        Sessiontoken: `123`
       }
     });
-
-    console.log(request.headers);
-    return next.handle(request);
+    console.log('2');
+    return next.handle(request).do((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        console.log('3');
+        console.log(event);
+      }
+    };
   }
 }
 
