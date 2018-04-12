@@ -5,6 +5,7 @@ driver book angular, server - done
 end ride - angular, server - done
 resonse interceptor, redirect to login if false reuturn
 report breakdown- angular, server - test
+angular vlaidatios -> empty , maxlength, email format, nobile niumber format
 
   
  
