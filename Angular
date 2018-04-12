@@ -1,0 +1,11 @@
+Angular module - there is not parent child mopdule all modules merger at compile
+for lazy loaded modules it needed to be declare in NGMOdule then only webpack will able to load it later
+
+COmpinent have parent child relationship
+
+for each component angular create Change detector which match old value and new valur of p[roperty of that component\
+based on parent child relation ship between component it creates chaneg decetction tree kind of structure and from start with root it goes to bottom
+to test changes.
+
+Chnage detection -
+https://blog.thoughtram.io/angular/2016/02/22/angular-2-change-detection-explained.html
