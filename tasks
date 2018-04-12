@@ -1,10 +1,12 @@
-   
+implement deactive user on angular, server - done
+send session token to requests , angular - and fdetch the same on server and call checksession method from authenticatin.php file
+driver search angular, server - test
+driver book angular, server - done
+end ride - angular, server - done
+resonse interceptor, redirect to login if false reuturn
+report breakdown- angular, server - test
 
-deactivate user  
-search availability
-book ride
-end ride
-session token http interceptor
-response interceptor
-
+  
+ 
+ 
 
